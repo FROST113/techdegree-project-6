@@ -49,6 +49,12 @@ const addPhraseToDisplay = (arr) => {
     }
 };
 
+// a Checkletter function
+
+const Checkletter = () => {
+
+};
+
 
 
 const phraseArray = getRandomPhraseAsArray(phrases);
