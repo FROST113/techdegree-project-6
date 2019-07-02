@@ -1,14 +1,16 @@
 // Variables
 
-const keyBoard = document.getElementById('qwerty');
-const phrase = document.getElementById('phrase');
+const qwerty = document.querySelector('#qwerty');
+const phrase = document.querySelector('#phrase');
+const resetBtn = document.querySelector('.btn__reset');
+const overlay = document.querySelector('#overlay');
+
 let missed = 0;
 
 
 // event listener to start game
 
-const resetBtn = document.querySelector('.btn__reset');
-const overlay = document.getElementById('overlay');
+
 
 resetBtn.addEventListener('click', () => {
     overlay.style.display = 'none';
@@ -24,34 +26,33 @@ resetBtn.addEventListener('click', () => {
     "do or do not there is no try"
  ];
 
- // get random phrase 
-
-function getRandomPhraseAsArray(phrases){
-    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-    const randomChar = randomPhrase.split('');
-    console.log(randomChar);
-    return randomChar; 
+ // Random Phrase function
+const getRandomPhraseAsArray = (arr) => {
+    const randomSelection = arr[Math.floor(Math.random() * arr.length)];
+    const  randoPhase = randomSelection.split('');
+    console.log(randoPhase);
+    return randoPhase;
 };
 
- getRandomPhraseAsArray(phrases);
-
-
-
-
-// set the game display 
-
-function addPhraseToDisplay(phraseArray){
-   let ul = document.querySelector('#phrase ul');
-   for (let i = 0; i < phraseArray.length; i++) {
-    let letter = document.createElement('li');
-    letter.textContent = phraseArray[i];
-    ul.appendChild(letter);
-   }
+// set game display
+const addPhraseToDisplay = (arr) => {
+    for (let i = 0; i < arr.length; i++){
+        const Item = document.createElement('li');
+        Item.textContent = arr[i];
+        const ul = phrase.firstElementChild;
+        ul.appendChild(Item);
+        if (arr[i] !== ' ') {
+            Item.className = 'letter';
+        } else {
+            Item.style.width = '35px';
+        }
+    }
 };
 
 
 
-
+const phraseArray = getRandomPhraseAsArray(phrases);
+addPhraseToDisplay(phraseArray);
 
 
 
