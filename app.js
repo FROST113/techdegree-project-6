@@ -4,6 +4,8 @@ const qwerty = document.querySelector('#qwerty');
 const phrase = document.querySelector('#phrase');
 const resetBtn = document.querySelector('.btn__reset');
 const overlay = document.querySelector('#overlay');
+const tries = document.getElementsByClassName('tries');
+const mainContainer = document.querySelector('.main-container');
 
 let missed = 0;
 
@@ -13,7 +15,7 @@ let missed = 0;
 
 
 resetBtn.addEventListener('click', () => {
-    overlay.style.display = 'none';
+    mainContainer.removeChild(overlay);
 });
 
 // phrases array
@@ -49,17 +51,59 @@ const addPhraseToDisplay = (arr) => {
     }
 };
 
-// a Checkletter function
-
-const Checkletter = () => {
-
-};
-
-
-
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
 
+// a Checkletter function
+
+const checkLetter = (atempt) => {
+    const letters = document.querySelectorAll('.letter');
+    let match = null;
+    for (let i = 0; i < letters.length; i++) {
+        let show = letters[i].textContent;
+        if (show === atempt.textContent) {
+            console.log('match');
+            letters[i].className += ' show';
+            match = true;
+        } 
+    }
+    return match;
+};
+
+// Event listener to the Keyboard
+
+qwerty.addEventListener('click', (e) => {
+    if (e.target.nodeName === 'BUTTON') {
+        e.target.className = 'chosen';
+        e.target.setAttribute('disabled', true);
+        const letterFound = checkLetter(e.target);
+        if (letterFound === null) {
+            tries[missed].style.display = 'none';
+            missed += 1;
+            console.log('missed');
+        }
+        // Check to see if you won or lost
+
+        const checkWin = () => {
+            const show = document.querySelectorAll('.show');
+            const letters = document.querySelectorAll('.letter');
+            if  (show.length === letters.length) {
+                console.log('won');
+                overlay.className = 'win';
+                overlay.innerHTML = '<h1>Won</h1>'
+                mainContainer.appendChild(overlay);
+
+            } else if (missed >= 5) {
+                console.log('lost');
+                overlay.className = 'lose';
+                overlay.innerHTML = '<h1>Lose</h1>'
+                mainContainer.appendChild(overlay);
+             }
+        }
+        checkWin();
+    }
+  
+});
 
 
 
